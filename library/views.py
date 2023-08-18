@@ -3,15 +3,16 @@ from .models import Book
 
 
 def library_home(request):
+    
+    return render(request, 'library/library_home.html')
+
+
+def catalog(request):
     Books  = Book.objects.all()
     context = {
         'books' : Books
     }
-    return render(request, 'library/library_home.html', context)
-
-
-def catalog(request):
-    return render(request, 'library/catalog.html')
+    return render(request, 'library/catalog.html', context)
 
 
 def events(request):
