@@ -31,6 +31,17 @@
             <tr><td>There are no books available.</td></tr>
             {% endfor %}
         </table>
+        <form method="get">
+    <label for="query">Search:</label>
+    <input type="text" id="query" name="query" required>
+    <select name="field">
+        <option value="title">Title</option>
+        <option value="writer">Writer</option>
+        <!-- Add other fields as needed -->
+    </select>
+    <input type="submit" value="Search">
+</form>
+
 
 <script>
     function toggleDetails(index) {
