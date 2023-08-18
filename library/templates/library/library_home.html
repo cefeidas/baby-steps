@@ -9,6 +9,17 @@
 <body>
     <header>
         <h1>Welcome to the Library</h1>
+        <h2>Books</h2>
+        <table>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td></td>
+            {% empty %}
+            <tr><td>There are no books available.</td></tr>    
+            {% endfor %}
+            </tr>
+        </table>
         <nav>
             <ul>
                 <li><a href="/catalog/">Catalog</a></li>

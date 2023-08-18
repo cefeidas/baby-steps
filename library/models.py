@@ -5,33 +5,31 @@ from django.db import models
 
 class Book(models.Model):
     GENRE_CHOICES = (
-        ('fiction', 'Fiction'),
-        ('non_fiction', 'Non-fiction'),
-        ('mystery', 'Mystery'),
-        ('fantasy', 'Fantasy'),
-        ('science_fiction', 'Science Fiction'),
-        ('thriller', 'Thriller'),
-        ('historical', 'Historical'),
-        ('biography', 'Biography'),
-        ('children', 'Children'),
-        ('young_adult', 'Young Adult'),
+        ('folk_tales', 'Folk tales'),
+        ('fantasy_magic', 'Fantasy and magic'),
+        ('african_history', 'History of African countries'),
+        ('children_10_12', 'Children\'s literature for 10 to 12 year olds'),
+        ('french_literature',  'French literature'),
+        ('spanish_literature', 'Spanish literature'),
+        ('science_fiction_new', 'Science fiction'),
+        ('humorous_fiction', 'Humorous fiction'),
+        ('horror_fiction', 'Horror fiction'),
+        ('travel_literature', 'Travel literature'),
+        ('foreign_lit_18th', 'Foreign literature up to the 18th century'),
+        ('fantastic_fiction', 'Fantastic fiction'),
+        ('horror_pocketbooks', 'Horror pocketbooks'),
     )
-    code = models.CharField(max_length=20, unique=True)
-    ISBN = models.CharField(max_length=13, unique=True)
-    title = models.CharField(max_length=200)
-    genre = models.CharField(max_length=20, choices=GENRE_CHOICES)
-    author = models.CharField(max_length=100)
-    location = models.CharField(max_length=50)
-    available_for_loan = models.BooleanField(default=True)
-    available_for_download = models.BooleanField(default=False)
 
-    def calculate_location(genre, author, title):
-    section = genre
-    letter = author[0]
-    number = calculate_number(author, title)
-    return f"{section} - {letter}{number}"
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    genre = models.CharField(max_length=50, choices=GENRE_CHOICES)
+    num_pages = models.PositiveIntegerField()
+    editorial = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13, unique=True)
+    year_edition = models.PositiveIntegerField()
+    date_edition = models.DateField()
+    writer = models.CharField(max_length=100)
+    image_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.title
-
-

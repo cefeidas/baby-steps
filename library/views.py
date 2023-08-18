@@ -1,8 +1,13 @@
 from django.shortcuts import render
+from .models import Book
 
 
 def library_home(request):
-    return render(request, 'library/library_home.html')
+    Books  = Book.objects.all()
+    context = {
+        'books' : Books
+    }
+    return render(request, 'library/library_home.html', context)
 
 
 def catalog(request):
