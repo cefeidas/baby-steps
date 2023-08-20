@@ -9,7 +9,7 @@ from .models import Book
 from .forms import CSVImportForm
 
 class BookAdmin(admin.ModelAdmin):
-    change_list_template = 'library/admin/book_changelist.html'
+    change_list_template = 'admin/book_changelist.html'
 
     def get_urls(self):
         urls = super().get_urls()

@@ -9,9 +9,6 @@ def library_home(request):
     return render(request, 'library/library_home.html')
 
 
-from django.core.paginator import Paginator
-from .models import Book
-
 def catalog(request):
     query = request.GET.get('query', '')
     field = request.GET.get('field', 'title')
