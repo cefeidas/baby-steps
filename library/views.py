@@ -21,11 +21,11 @@ def catalog(request):
         if field == 'title':
             books_list = books_list.filter(title__icontains=query)
         elif field == 'writer':
-            books_list = books_list.filter(writer__name__icontains=query)
+            books_list = books_list.filter(writer__icontains=query)
         elif field == 'genre':
-            books_list = books_list.filter(genre__name__icontains=query)
+            books_list = books_list.filter(genre__icontains=query)
         elif field == 'editorial':
-            books_list = books_list.filter(editorial__name__icontains=query)
+            books_list = books_list.filter(editorial__icontains=query)
         elif field == 'isbn':
             books_list = books_list.filter(isbn__icontains=query)
 
