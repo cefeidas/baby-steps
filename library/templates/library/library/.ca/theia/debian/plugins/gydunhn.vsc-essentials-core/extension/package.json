@@ -1,0 +1,43 @@
+{
+    "name": "vsc-essentials-core",
+    "displayName": "VSC-Essentials-Core",
+    "description": "Language agnostic, The Essential extensions (core) for visual studio code",
+    "icon": "img/essentials.png",
+    "galleryBanner": {
+        "color": "#53595e",
+        "theme": "dark"
+    },
+    "license": "LICENSE.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Gydunhn/VSC-Essentials.git"
+    },
+    "keywords": [
+        "VSC",
+        "VSCode",
+        "VSC Essentials",
+        "Essentials",
+        "indent",
+        "Format",
+        "Formatting",
+        "Lint",
+        "Markdown",
+        "markdownlint",
+        "Markdown All in One",
+        "Gydunhn",
+        "Elite"
+    ],
+    "version": "0.0.1",
+    "publisher": "Gydunhn",
+    "engines": {
+        "vscode": "^1.35.0"
+    },
+    "categories": [
+        "Extension Packs"
+    ],
+    "extensionPack": [
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "DotJoshJohnson.xml"
+    ]
+}

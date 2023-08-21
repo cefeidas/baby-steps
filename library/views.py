@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import Book
 from django.db.models import Q
-
+from .forms import SearchForm
 
 def library_home(request):
     
@@ -10,23 +10,35 @@ def library_home(request):
 
 
 def catalog(request):
-    query = request.GET.get('query', '')
-    field = request.GET.get('field', 'title')
+    form = SearchForm(request.GET or None)
+    query = ""
     books_list = Book.objects.all()
-    if query:
-        filter_args = {f'{field}__icontains': query}
-        books_list = books_list.filter(**filter_args)
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        field = form.cleaned_data['field']
+
+        if field == 'title':
+            books_list = books_list.filter(title__icontains=query)
+        elif field == 'writer':
+            books_list = books_list.filter(writer__name__icontains=query)
+        elif field == 'genre':
+            books_list = books_list.filter(genre__name__icontains=query)
+        elif field == 'editorial':
+            books_list = books_list.filter(editorial__name__icontains=query)
+        elif field == 'isbn':
+            books_list = books_list.filter(isbn__icontains=query)
 
     paginator = Paginator(books_list, 5) # Show 5 books per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     context = {
+        'form': form, # Add form to context for rendering in the template
         'books': page_obj,
-        'query': query,
+        'query': query
     }
     return render(request, 'library/catalog.html', context)
-
 
 
 

@@ -1,8 +1,18 @@
 from django import forms
 
-class SearchBookForm(forms.Form):
-    query = forms.CharField(required=True, label="Search:")
-    field = forms.ChoiceField(choices=[('title', 'Title'), ('writer', 'Writer')]) # Add other fields as needed
+
+class SearchForm(forms.Form):
+    SEARCH_FIELDS = (
+        ('title', 'Title'),
+        ('writer', 'Writer'),
+        ('genre', 'Genre'),
+        ('editorial', 'Editorial'),
+        ('isbn', 'ISBN'),
+    )
+
+    query = forms.CharField(label='Search:', required=True)
+    field = forms.ChoiceField(choices=SEARCH_FIELDS)
+
 
 class CSVImportForm(forms.Form):
     csv_file = forms.FileField()
