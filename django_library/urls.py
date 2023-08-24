@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from library.views import library_home, catalog, events, contact, about
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', library_home, name='library_project'),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('events/', events, name='events'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
+
 ]

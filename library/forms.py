@@ -16,3 +16,10 @@ class SearchForm(forms.Form):
 
 class CSVImportForm(forms.Form):
     csv_file = forms.FileField()
+
+    def clean_csv_file(self):
+        file = self.cleaned_data.get('csv_file')
+        if file:
+            if not file.name.endswith('.csv'):
+                raise forms.ValidationError("File must be a CSV file.")
+        return file

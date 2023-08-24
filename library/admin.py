@@ -23,9 +23,25 @@ class BookAdmin(admin.ModelAdmin):
     def import_csv(self, request):
         if request.method == "POST":
             csv_file = request.FILES["csv_file"]
+
+            # Check if the file is in UTF-8 format
+            encoding = chardet.detect(csv_file.read())['encoding']
+            if encoding.lower() != 'utf-8':
+                messages.error(request, "The file is not in UTF-8 format")
+                return redirect("..")
+            csv_file.seek(0)  # Reset file pointer
+
             reader = csv.reader(csv_file.read().decode('utf-8').splitlines())
-            next(reader)
+            next(reader)  # Skip the header row
+
+            expected_columns = 10  # Expected number of columns
+
             for row in reader:
+                if len(row) != expected_columns:
+                    messages.error(
+                        request, f"Row with incorrect number of columns: {row}")
+                    continue  # Skip this row and continue with the next one
+
                 try:
                     book = Book(
                         title=row[0],
@@ -41,9 +57,11 @@ class BookAdmin(admin.ModelAdmin):
                     )
                     book.save()
                 except ValueError as e:
+                    messages.error(
+                        request, f"Error processing the row {row}: {e}")
+                    continue  # Skip this row and continue with the next one
 
-                    print(f"Error al procesar la fila {row}: {e}")
-            self.message_user(request, "CSV file has been imported")
+            messages.success(request, "CSV file has been imported")
             return redirect("..")
         form = CSVImportForm()
         payload = {"form": form}
