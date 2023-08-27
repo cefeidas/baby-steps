@@ -1,14 +1,13 @@
 from .forms import CSVImportForm
 from .models import Book
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import path
 from django.contrib import admin
 import csv
 import sys
-from django.shortcuts import redirect
+from django.contrib import messages
 
 print("Python Paths:", sys.path)
-
 
 class BookAdmin(admin.ModelAdmin):
     change_list_template = 'admin/book_changelist.html'
@@ -24,14 +23,14 @@ class BookAdmin(admin.ModelAdmin):
         if request.method == "POST":
             csv_file = request.FILES["csv_file"]
 
-            # Check if the file is in UTF-8 format
-            encoding = chardet.detect(csv_file.read())['encoding']
-            if encoding.lower() != 'utf-8':
+            # Attempt to decode the file as UTF-8
+            try:
+                file_content = csv_file.read().decode('utf-8')
+            except UnicodeDecodeError:
                 messages.error(request, "The file is not in UTF-8 format")
                 return redirect("..")
-            csv_file.seek(0)  # Reset file pointer
 
-            reader = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            reader = csv.reader(file_content.splitlines())
             next(reader)  # Skip the header row
 
             expected_columns = 10  # Expected number of columns
@@ -63,6 +62,7 @@ class BookAdmin(admin.ModelAdmin):
 
             messages.success(request, "CSV file has been imported")
             return redirect("..")
+
         form = CSVImportForm()
         payload = {"form": form}
         return render(request, "admin/csv_form.html", payload)

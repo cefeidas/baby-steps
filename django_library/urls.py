@@ -20,7 +20,7 @@ from library.views import library_home, catalog, events, contact, about
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', library_home, name='library_project'),
+    path('', library_home, name='library_home'),
     path('catalog/', catalog, name='catalog'),
     path('events/', events, name='events'),
     path('contact/', contact, name='contact'),
