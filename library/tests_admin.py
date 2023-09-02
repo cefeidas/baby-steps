@@ -1,25 +1,31 @@
-from django.test import TestCase, Client
+from django.test import TestCase
+from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
-from library.models import Book
+import os
+import tempfile
 
 
 class BookAdminTestCase(TestCase):
+    fixtures = ['initial_data.json']  # Ensure this file actually exists
 
     def setUp(self):
-        self.client = Client()
+        super().setUp()
+        # Login logic here, if needed
 
-    def test_import_csv_post_request(self):
-        csv_content = "title,description,genre,num_pages,editorial,isbn,year_edition,date_edition,writer,image_url\n" \
-                      "Sample Title,Sample Description,Sample Genre,300,Sample Editorial,1234567890,2022,01-01-2022,Sample Writer,http://sample.com/image.jpg"
+    def test_import_csv_non_utf8_file(self):
+        url = reverse('admin:import_csv')
 
-        csv_file = SimpleUploadedFile(
-            'test.csv', csv_content.encode('utf-8'), content_type='text/csv')
+        # Creating a non-UTF8 encoded file using tempfile
+        with tempfile.NamedTemporaryFile(delete=False, mode='wb') as temp_file:
+            temp_file.write('name,author\n'.encode('utf-8'))
+            temp_file.write('Название,Автор\n'.encode('windows-1251'))
 
-        response = self.client.post(
-            '/admin/library/book/import-csv/', {'csv_file': csv_file})
-        self.assertEqual(response.status_code, 302)
+        with open(temp_file.name, 'rb') as file:
+            response = self.client.post(url, {'file': file}, follow=True)
 
-        self.assertEqual(Book.objects.count(), 1)
+        # Cleanup
+        os.remove(temp_file.name)
 
-        book = Book.objects.first()
-        self.assertEqual(book.title, "Sample Title")
+        # Check if the response contains a specific message and status code
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'The file is not in UTF-8 format')

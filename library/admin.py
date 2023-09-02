@@ -5,9 +5,11 @@ from django.urls import path
 from django.contrib import admin
 import csv
 import sys
+from datetime import datetime
 from django.contrib import messages
 
 print("Python Paths:", sys.path)
+
 
 class BookAdmin(admin.ModelAdmin):
     change_list_template = 'admin/book_changelist.html'
@@ -42,6 +44,12 @@ class BookAdmin(admin.ModelAdmin):
                     continue  # Skip this row and continue with the next one
 
                 try:
+                    # Convert date to correct format
+                    date_str = row[7]
+                    date_obj = datetime.strptime(date_str, '%d-%m-%Y')
+                    correct_format_date = date_obj.strftime(
+                        '%Y-%m-%d')  # <-- Date conversion
+
                     book = Book(
                         title=row[0],
                         description=row[1],
@@ -50,7 +58,7 @@ class BookAdmin(admin.ModelAdmin):
                         editorial=row[4],
                         isbn=row[5],
                         year_edition=int(row[6]),
-                        date_edition=row[7],
+                        date_edition=correct_format_date,  # <-- Use converted date
                         writer=row[8],
                         image_url=row[9],
                     )
