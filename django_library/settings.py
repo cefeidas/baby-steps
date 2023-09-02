@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ['8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
                  'baby-steps.herokuapp.com', 'localhost', '127.0.0.1']
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
