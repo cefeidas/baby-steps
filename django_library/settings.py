@@ -31,8 +31,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
-                 'baby-steps.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    '8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
+    'baby-steps.herokuapp.com', 
+    'localhost', 
+    '127.0.0.1',
+    'baby-steps-e1358178dd61.herokuapp.com'
+]
 
 
 # Application definition
