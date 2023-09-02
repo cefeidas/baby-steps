@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
-                 'library.herokuapp.com', 'localhost', '127.0.0.1']
+                 'baby-steps.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 
