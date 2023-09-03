@@ -16,6 +16,8 @@ import dj_database_url
 if os.path.isfile('env.py'):
     import env
 
+print("DATABASE_URL:", os.environ.get("DATABASE_URL"))
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'library/templates')
@@ -29,14 +31,15 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'library/templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
+    '8000-cefeidas-babysteps-x5ifg3mzcae.ws-eu104.gitpod.io',
     'baby-steps.herokuapp.com', 
     'localhost', 
     '127.0.0.1',
-    'baby-steps-e1358178dd61.herokuapp.com'
+    'baby-steps-e1358178dd61.herokuapp.com',
 ]
 
 
@@ -89,9 +92,9 @@ WSGI_APPLICATION = 'django_library.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL")),
 }
+
 
 
 # Password validation
