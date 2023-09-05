@@ -31,11 +31,11 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'library/templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
-    '8000-cefeidas-babysteps-x5ifg3mzcae.ws-eu104.gitpod.io',
+    '8000-cefeidas-babysteps-322sib0y2mb.ws-eu104.gitpod.io',
     'baby-steps.herokuapp.com', 
     'localhost', 
     '127.0.0.1',
