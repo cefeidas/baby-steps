@@ -39,16 +39,8 @@
                     <td>{{ book.editorial }}</td>
                 </tr>
                 <tr>
-                    <td>ISBN:</td>
-                    <td>{{ book.isbn }}</td>
-                </tr>
-                <tr>
                     <td>Year:</td>
                     <td>{{ book.year_edition }}</td>
-                </tr>
-                <tr>
-                    <td>Date:</td>
-                    <td>{{ book.date_edition }}</td>
                 </tr>
                 <tr>
                     <td>Writer:</td>
@@ -58,6 +50,15 @@
                     <td>Image:</td>
                     <td><a href="{{ book.image_url }}" target="_blank">{{ book.image_url }}</a></td>
                 </tr>
+                <tr>
+                    <td>Read online:</td>
+                    <td><a href="{{ book.read_online }}" target="_blank">{{ book.read_online}}</a></td>
+                </tr>
+                <tr>
+                    <td>Download:</td>
+                    <td><a href="{{ book.download_link }}" target="_blank">{{ book.download_link }}</a></td>                    
+                </tr>
+                
             </table>
         </td>
     </tr>

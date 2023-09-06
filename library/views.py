@@ -22,8 +22,6 @@ def fetch_books(request, search_form):
             books_list = books_list.filter(genre__icontains=query)
         elif field == 'editorial':
             books_list = books_list.filter(editorial__icontains=query)
-        elif field == 'isbn':
-            books_list = books_list.filter(isbn__icontains=query)
 
     paginator = Paginator(books_list, 5)
     page_number = request.GET.get('page')
@@ -36,6 +34,7 @@ def fetch_books(request, search_form):
     }
 
 def library_home(request):
+    print("Library Home View Triggered")
     form = SearchForm(request.GET or None)
     context = fetch_books(request, form)
     return render(request, 'library/library_home.html', context)

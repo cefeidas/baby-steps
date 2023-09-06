@@ -25,11 +25,11 @@ class Book(models.Model):
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES)
     num_pages = models.PositiveIntegerField()
     editorial = models.CharField(max_length=100)
-    isbn = models.CharField(max_length=13, unique=True)
     year_edition = models.PositiveIntegerField()
-    date_edition = models.DateField()
     writer = models.CharField(max_length=100)
     image_url = models.URLField(blank=True, null=True)
+    read_online = models.URLField(null=True, blank=True)
+    download_link = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.title

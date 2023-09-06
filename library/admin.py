@@ -44,11 +44,6 @@ class BookAdmin(admin.ModelAdmin):
                     continue  # Skip this row and continue with the next one
 
                 try:
-                    # Convert date to correct format
-                    date_str = row[7]
-                    date_obj = datetime.strptime(date_str, '%d-%m-%Y')
-                    correct_format_date = date_obj.strftime(
-                        '%Y-%m-%d')  # <-- Date conversion
 
                     book = Book(
                         title=row[0],
@@ -56,11 +51,12 @@ class BookAdmin(admin.ModelAdmin):
                         genre=row[2],
                         num_pages=int(row[3]),
                         editorial=row[4],
-                        isbn=row[5],
-                        year_edition=int(row[6]),
-                        date_edition=correct_format_date,  # <-- Use converted date
-                        writer=row[8],
-                        image_url=row[9],
+                        year_edition=int(row[5]),
+                        writer=row[6],
+                        image_url=row[7],
+                        read_online=row[8],
+                        download_link=row[9]
+
                     )
                     book.save()
                 except ValueError as e:
