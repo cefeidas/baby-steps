@@ -35,7 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
-    '8000-cefeidas-babysteps-sed6bfczb1r.ws-eu104.gitpod.io',
+    '8000-cefeidas-babysteps-8suy00x1h26.ws-us104.gitpod.io',
     'baby-steps.herokuapp.com', 
     'localhost', 
     '127.0.0.1',
