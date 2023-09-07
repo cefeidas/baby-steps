@@ -33,3 +33,33 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+class UserCustom(models.Model):
+    username = models.CharField(max_length=50, unique=True)
+    
+    def __str__(self):
+        return self.username
+
+class Review(models.Model):
+    user = models.ForeignKey(UserCustom, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    content = models.TextField()
+    
+    def __str__(self):
+        return f"Review of {self.book.title} by {self.user.username}"
+
+class Rating(models.Model):
+    user = models.ForeignKey(UserCustom, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    score = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])  # 1 to 5
+    
+    def __str__(self):
+        return f"Rating of {self.book.title} by {self.user.username} is {self.score}"
+
+class PrivateComment(models.Model):
+    from_user = models.ForeignKey(UserCustom, related_name='comments_sent', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(UserCustom, related_name='comments_received', on_delete=models.CASCADE)
+    content = models.TextField()
+    
+    def __str__(self):
+        return f"Comment from {self.from_user.username} to {self.to_user.username}"

@@ -9,16 +9,16 @@
 </head>
 
 <body>
-    <h1>Catalog</h1>
-    {% include 'library/catalog_include.html' %}
+    
+    {% include 'library/users_include.html' %}
 
     <script>
-        function toggleDetails(index) {
-            var detailsTable = document.getElementById('details-' + index);
-            if (detailsTable.style.display === 'none' || detailsTable.style.display === '') {
-                detailsTable.style.display = 'table';
+        function toggleUserDetails(index) {
+            var userDetailsTable = document.getElementById('user-details-' + index);
+            if (userDetailsTable.style.display === 'none' || userDetailsTable.style.display === '') {
+                userDetailsTable.style.display = 'table';
             } else {
-                detailsTable.style.display = 'none';
+                userDetailsTable.style.display = 'none';
             }
         }
     </script>

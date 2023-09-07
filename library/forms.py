@@ -10,6 +10,7 @@ class SearchForm(forms.Form):
         ('isbn', 'ISBN'),
     )
 
+
     query = forms.CharField(label='Search:', required=True)
     field = forms.ChoiceField(choices=SEARCH_FIELDS)
 
@@ -23,3 +24,13 @@ class CSVImportForm(forms.Form):
             if not file.name.endswith('.csv'):
                 raise forms.ValidationError("File must be a CSV file.")
         return file
+
+class UserSearchForm(forms.Form):
+    USER_SEARCH_FIELDS = (
+        ('username', 'User Name'),
+        ('reviews', 'Reviews'),
+        ('ratings', 'Ratings'),
+    )
+
+    query = forms.CharField(label='Search:', required=True)
+    field = forms.ChoiceField(choices=USER_SEARCH_FIELDS)

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from library.views import library_home, catalog, events, contact, about
+from library.views import library_home, catalog, events, contact, about, users
 
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
     path('accounts/', include('allauth.urls')),
+    path('users/', users, name='users'),
 
 ]
