@@ -1,7 +1,15 @@
 from django import forms
+from .models import Book
 
 
-class SearchForm(forms.Form):
+class BaseSearchForm(forms.Form):
+    query = forms.CharField(label='Search:', required=True)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['field'] = forms.ChoiceField(choices=self.SEARCH_FIELDS)
+
+class SearchForm(BaseSearchForm):
     SEARCH_FIELDS = (
         ('title', 'Title'),
         ('writer', 'Writer'),
@@ -9,10 +17,23 @@ class SearchForm(forms.Form):
         ('editorial', 'Editorial'),
         ('isbn', 'ISBN'),
     )
-
-
-    query = forms.CharField(label='Search:', required=True)
     field = forms.ChoiceField(choices=SEARCH_FIELDS)
+
+class UserSearchForm(BaseSearchForm):
+    SEARCH_FIELDS = (
+        ('username', 'User Name'),
+        ('reviews', 'Reviews'),
+        ('ratings', 'Ratings'),
+    )
+    field = forms.ChoiceField(choices=SEARCH_FIELDS)
+
+class ReviewForm(BaseSearchForm):
+    SEARCH_FIELDS = (
+        ('username', 'User Name'),
+        ('title', 'Title'),
+    )
+    field = forms.ChoiceField(choices=SEARCH_FIELDS)
+
 
 
 class CSVImportForm(forms.Form):
@@ -25,12 +46,7 @@ class CSVImportForm(forms.Form):
                 raise forms.ValidationError("File must be a CSV file.")
         return file
 
-class UserSearchForm(forms.Form):
-    USER_SEARCH_FIELDS = (
-        ('username', 'User Name'),
-        ('reviews', 'Reviews'),
-        ('ratings', 'Ratings'),
-    )
-
-    query = forms.CharField(label='Search:', required=True)
-    field = forms.ChoiceField(choices=USER_SEARCH_FIELDS)
+class SelectBookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title']

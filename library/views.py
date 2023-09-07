@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from .models import Book
+from .models import Book, Review
 from django.contrib.auth.models import User
 from django.db.models import Q
-from .forms import SearchForm, UserSearchForm
+from .forms import SearchForm, UserSearchForm, ReviewForm
 
 
 # views.py
@@ -95,14 +95,33 @@ def users(request):
     context = fetch_users(request, form)
     return render(request, 'library/users.html', context)
 
+def add_review(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    user = request.user
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = user
+            review.book = book
+            review.save()
+            # Now the database has been updated.
+    else:
+        form = ReviewForm()
+    return render(request, 'library/add_review.html', {'form': form})
 
-def events(request):
-    return render(request, 'library/events.html')
 
 
-def contact(request):
-    return render(request, 'library/contact.html')
+def reviews(request):
+    return render(request, 'library/reviews.html')
 
-
-def about(request):
-    return render(request, 'library/about.html')
+def select_book_for_review(request):
+    if request.method == 'POST':
+        form = SelectBookForm(request.POST)
+        if form.is_valid():
+            book_id = form.cleaned_data['title'].id
+            # Redirect to the actual review page for the selected book
+            return redirect('library/add_review', book_id=book_id)
+    else:
+        form = SelectBookForm()
+    return render(request, 'library/select_book_for_review.html', {'form': form})
