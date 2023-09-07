@@ -1,5 +1,5 @@
 from .forms import CSVImportForm
-from .models import Book
+from .models import Book, Review
 from django.shortcuts import render, redirect
 from django.urls import path
 from django.contrib import admin
@@ -7,8 +7,27 @@ import csv
 import sys
 from datetime import datetime
 from django.contrib import messages
+from django import forms
+
 
 print("Python Paths:", sys.path)
+
+
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'timestamp')  # Display review summary and timestamp
+    list_filter = ('user__username', 'book__title', 'timestamp')  # Filters by username, book title, and timestamp
+    search_fields = ('user__username', 'book__title', 'content')  # Searchable by username, book title, and content
+    readonly_fields = ('timestamp',)  # Making timestamp read-only as it's auto-generated
+    
+    # If you want to use custom forms
+    # form = YourCustomReviewForm
+    
+    def __str__(self):
+        return f"Review Admin"
+
+
+# Register it with the model
+admin.site.register(Review, ReviewAdmin)
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -20,6 +39,8 @@ class BookAdmin(admin.ModelAdmin):
             path('import-csv/', self.import_csv),
         ]
         return my_urls + urls
+
+
 
     def import_csv(self, request):
         if request.method == "POST":

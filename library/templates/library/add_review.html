@@ -9,10 +9,37 @@
 </head>
 
 <body>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Review</button>
-    </form>
+
+    <h1>Add Review</h1>
+    {% include 'library/catalog_include.html' %}
+
+    {% if not selected_book %}
+        <!-- Form for selecting a book -->
+        <form method="post">
+            {% csrf_token %}
+            {{ select_book_form }}
+            <button type="submit">Select Book</button>
+        </form>
+    {% else %}
+        <!-- Form for adding a review -->
+        <h2>Selected Book: {{ selected_book.title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ review_form }}
+            <button type="submit">Submit Review</button>
+        </form>
+    {% endif %}
+
+    <script>
+        function toggleDetails(index) {
+            var detailsTable = document.getElementById('details-' + index);
+            if (detailsTable.style.display === 'none' || detailsTable.style.display === '') {
+                detailsTable.style.display = 'table';
+            } else {
+                detailsTable.style.display = 'none';
+            }
+        }
+    </script>
+
 </body>
 </html>
