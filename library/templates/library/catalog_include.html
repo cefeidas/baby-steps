@@ -85,6 +85,12 @@
         {% endif %}
     </span>
 </div>
+<script>
+    function bookSelected(bookId, bookTitle) {
+    localStorage.setItem('selectedBookId', bookId);
+    localStorage.setItem('selectedBookTitle', bookTitle);
+}
+</script>
 
 
 </body>

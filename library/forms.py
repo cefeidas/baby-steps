@@ -31,6 +31,7 @@ class ReviewForm(BaseSearchForm):
     SEARCH_FIELDS = (
         ('username', 'User Name'),
         ('title', 'Title'),
+        ('book'), 'Book'
     )
     field = forms.ChoiceField(choices=SEARCH_FIELDS)
 

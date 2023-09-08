@@ -64,13 +64,42 @@ def fetch_users(request, search_form):
             print(f"An error occurred: {e}")  # Log the error for debugging
             user_list = User.objects.none()  # Returns an empty queryset if an exception occurs
 
-    paginator = Paginator(user_list, 25)  # Show 25 users per page
+    paginator = Paginator(user_list, 5)  # Show 25 users per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     return {
         'form': search_form,
         'users': page_obj,
+        'query': query
+    }
+
+# views.py
+
+def fetch_reviews(request, search_form):
+    query = ""
+    reviews_list = Review.objects.all().order_by('timestamp')  # assuming you have a timestamp field
+    
+    if search_form.is_valid():
+        query = search_form.cleaned_data['query']
+        field = search_form.cleaned_data['field']
+
+        if field == 'title':
+            reviews_list = reviews_list.filter(title__icontains=query)
+        elif field == 'book':
+            reviews_list = reviews_list.filter(book__title__icontains=query)
+        elif field == 'date':
+            reviews_list = reviews_list.filter(timestamp__icontains=query)
+        elif field == 'user':
+            reviews_list = reviews_list.filter(user__username__icontains=query)
+
+    paginator = Paginator(reviews_list, 5)  # 5 reviews per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return {
+        'form': search_form,
+        'reviews': page_obj,
         'query': query
     }
 
@@ -115,11 +144,26 @@ def users(request):
 def add_review(request):
     user = request.user
     selected_book = None
+    search_form = SearchForm(request.GET or None)
+    
+    if search_form.is_valid():
+        print(f"Search form is valid. Query: {search_form.cleaned_data['query']}")
+        query = search_form.cleaned_data['query']
+        field = search_form.cleaned_data['field']
+        books_list = Book.objects.filter(**{field+'__icontains': query}).order_by('title')
+    else:
+        print("GET request")
+        books_list = Book.objects.all().order_by('title')
+
+    paginator = Paginator(books_list, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     if 'selected_book' in request.session:
         book_id = request.session['selected_book']
         selected_book = get_object_or_404(Book, id=book_id)
 
+    # Trata la solicitud POST
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
         
@@ -138,7 +182,6 @@ def add_review(request):
                 review.save()
                 del request.session['selected_book']
                 return redirect('reviews')
-
     else:
         select_book_form = SelectBookForm()
         review_form = ReviewForm()
@@ -146,13 +189,14 @@ def add_review(request):
     return render(request, 'library/add_review.html', {
         'select_book_form': select_book_form,
         'review_form': review_form,
-        'selected_book': selected_book
+        'selected_book': selected_book,
+        'books': page_obj  # Pasamos la variable paginada
     })
 
 
-
-
-
 def reviews(request):
-    return render(request, 'library/reviews.html')
+    form = SearchForm(request.GET or None)
+    context = fetch_reviews(request, form)
+    return render(request, 'library/reviews.html', context)
+
 
