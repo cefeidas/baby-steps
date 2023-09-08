@@ -33,6 +33,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 ALLOWED_HOSTS = [
     '8000-cefeidas-baby-steps-ge3m5s909g.us2.codeanyapp.com',
     '8000-cefeidas-babysteps-8suy00x1h26.ws-us104.gitpod.io',
